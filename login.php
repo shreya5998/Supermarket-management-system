@@ -1,0 +1,138 @@
+<?php
+$connection =pg_connect ("host=localhost dbname=supermarket user=postgres password=9448901052") ;   
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Employee Login</title>
+
+
+
+
+</head>
+<body >
+
+<?php
+	
+		session_start();
+    		if (isset($_POST['username']))
+    		{
+    		
+		
+			$username = stripslashes($_REQUEST['username']); // removes backslashes
+			//$username = mysqli_real_escape_string($con,$username); //escapes special characters in a string
+			$password = stripslashes($_REQUEST['password']);
+			//$password = mysqli_real_escape_string($con,$password);
+
+				
+	
+			$query = "SELECT * FROM employee WHERE emp_name='$username' and emp_id='$password'";
+			 $result=pg_query($connection, $query);
+			 if (pg_num_rows($result)) 
+	 		 {
+	 		 
+	 		 	
+	 		 	
+	 		 	echo "<script>body{font-size:40px;color:white;}</script>";
+	 		 	echo "<center><br><br>";
+	  			echo "Successfully logged in"; 
+				echo '<br><br>';
+				echo '<a href="/dbms/bill/bill_f.php">Billing</a>';
+	       			 echo '<br>';
+				echo '<a href="cust_details.php">Customer Details</a>'; 
+				echo '<br>';   
+				echo '<a href="most_sold_items.php">Most Sold Items</a>';  
+				echo '<br>';   
+				echo '<a href="av_offers.php">Available Offers</a>';  
+				echo '<br>';        
+				echo '<a href="cust_disc.php">Give Discount</a>';  
+				echo '<br>';  
+				echo '<a href="part.php">Particular Product</a>';  
+				echo '<br>';      
+				echo "</center>";  
+				
+	      		
+	    		 }
+	 		  else
+	 		  {	
+	 		  	if((strcmp($username,'admin')==0) && (strcmp($password,'admin')==0))
+	 		 	{
+	 		 		echo "<script>window.location.href='/dbms/admin/first.php';</script>";
+	 		 		//echo 'gesdfkg';
+	 		 	}
+	 		 	else
+	 		 	{
+	 		  	echo "<center><div style='font-size:80px;'><br><br><br>";
+	      		   	echo "Invalid credentials";
+	      		   	echo "</div>";
+	      		   	
+	      		   	echo "<br><button onclick='back()' style='width:200px;height:40px;'>HOME</button></center>";
+	      		   	}
+	      		   }
+  		}
+  		else
+  		{
+
+
+			?>
+			<div class="form">
+			<center><h1>Employee Login</h1>
+			<form action="" method="post" name="login">
+			<input type="text" name="username" placeholder="Username" required />
+			<br>
+			<input type="password" name="password" placeholder="Password" required />
+			<br><br>
+			<input name="submit" type="submit" value="Login" />
+			</form></center>
+			<br /><br />
+
+			</div>
+			<?php 
+		}
+		
+ ?>
+ 
+ <style>
+ 	input,button{width:300px;height:40px;text-align:center;
+ 	border-bottom-right-radius: 2.5em;
+	border-bottom-left-radius: 2.5em;
+	border-top-right-radius: 2.5em;
+	border-top-left-radius: 2.5em;
+	
+	
+		box-shadow: 30px 10px 50px 	#696969;
+	-moz-box-shadow: 30px 10px 50px 	#696969;
+	-webkit-box-shadow: 30px 10px 50px 	#696969;
+	-khtml-box-shadow: 30px 10px 50px 	#696969;}
+ 	
+ 	input:hover,button:hover{
+		 opacity: .8;
+		
+	-moz-transform: scale(1.1);
+		-webkit-transform: scale(1.1);
+		transform: scale(1.1);
+		
+	
+}
+
+	
+body{
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size:40px;
+	background-image:url("login.jpeg") ;
+	
+	height:auto;
+    	width:auto;
+	background-size:100%;
+	background-attachment: fixed;
+}
+ </style>
+<script>
+	function back()
+	{
+	window.location.href="/dbms/login/login.php";
+	}
+</script>
+</body>
+</html>
